@@ -1,6 +1,7 @@
 require 'json'
 require 'pp'
 require 'thread'
+require_relative 'stack.rb'
 
 class Pysakki
   attr_accessor :koodi, :osoite, :nimi, :x, :y, :naapurit
@@ -17,9 +18,9 @@ class Pysakki
 end
 
 class Node
-  attr_accessor :visited, :matka, :parent, :pysakki
+  attr_accessor :pysakki, :visited, :matka, :parent
 
-  def initialize pysakki ,matka, parent, visited = true
+  def initialize pysakki, matka, parent, visited = true
     @pysakki = pysakki
     @matka = matka
     @parent = parent
@@ -34,11 +35,12 @@ end
 
 
 class BFS
-  attr_accessor :pysakki_array, :pysakit, :json
+  attr_accessor :pysakki_array, :pysakit, :json, :stack
 
   def initialize
     @pysakki_array = []
     @pysakit = Hash.new
+    @stack = Stack.new
     read_json
   end
 
@@ -53,44 +55,46 @@ class BFS
     end
   end
 
-  @vierailtu = Hash.new
-
   def haku alku, loppu
+    puts "alku #{alku}"
+    puts "loppu #{loppu}"
     queue = Queue.new
-    queue << Node.new( @pysakit[alku], 0, nil, true )
+    queue << Node.new(@pysakit[alku], 0, nil, true)
     while !queue.empty?
-      pysakki = queue.pop
-      pysakki.naapurit.each do |pys|
-        pys_node = Node.new(pys, pysakki.matka+1, pysakki)
-        if pys_node.pysakki.koodi == loppu
-          return pys_node
+      pysakki_nyt = queue.pop
+      pysakki_nyt.visited = true
+      pysakki_nyt.naapurit.each do |naapuri|
+        naapuri_pysakki = @pysakit[naapuri[0]] #naapuri[1] on etäisyys - ei huomioida nyt
+        naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt, false
+       #                       pysakki,         matka,               parent,      visited - miksi :)
+        if naapuri_node.pysakki.koodi == loppu
+          return naapuri_node
         end
-        unless pys_node.visited
-          queue << pys_node
+        unless naapuri_node.visited
+          queue << naapuri_node
         end
       end
     end
+  end
 
-    #for jokaiselle solmulle u ∈ V
-    #     color[u] = white
-    #     distance[u] = ∞
-    #tree[u] = NIL
-    #color[s] = gray
-    #distance[s] = 0
-    #enqueue(Q,s)
-    #while ( not empty(Q) )
-    #  u = dequeue(Q)
-    #  for jokaiselle solmulle v ∈ vierus[u]
-    #  // kaikille u:n vierussolmuille v // solmua v ei vielä löydetty
-    #  if color[v]==white
-    #    color[v] = gray
-    #    distance[v] = distance[u]+1 tree[v] = u
-    #    enqueue(Q,v)
-    #    color[u] = black
+  def hae_reitti alku, loppu
+    tulos = haku alku,loppu
+    stack.push tulos
+    while tulos.parent != nil
+      stack.push tulos.parent
+      tulos = tulos.parent
+
+    end
+    while !stack.empty?
+      poimittu = stack.pop
+      puts "#{poimittu.pysakki.koodi} --- Matka: #{poimittu.matka}"
+    end
+
   end
 
 end
 
 bfs = BFS.new
+bfs.hae_reitti "1250429", "1121480"
 
-bfs.haku "1250429", "1121480"
+#"1250429", "1121480"

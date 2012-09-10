@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="241bd85b-938c-4888-be64-5d29b1f12586" name="Default" comment="" />
+    <list default="true" id="241bd85b-938c-4888-be64-5d29b1f12586" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/stack.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bfs.rb" afterPath="$PROJECT_DIR$/bfs.rb" />
+    </list>
     <ignored path="tkoaly.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,7 +26,16 @@
       <file leaf-file-name="bfs.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bfs.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="29" selection-start="1238" selection-end="1238" vertical-scroll-proportion="0.71076924">
+            <state line="85" column="0" selection-start="1916" selection-end="1916" vertical-scroll-proportion="0.5476923">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stack.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stack.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="3" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -41,6 +54,7 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/stack.rb" />
         <option value="$PROJECT_DIR$/bfs.rb" />
       </list>
     </option>
@@ -327,9 +341,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/stack.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="3" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bfs.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="29" selection-start="1238" selection-end="1238" vertical-scroll-proportion="0.71076924">
+        <state line="85" column="0" selection-start="1916" selection-end="1916" vertical-scroll-proportion="0.5476923">
           <folding />
         </state>
       </provider>
