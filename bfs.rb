@@ -7,12 +7,7 @@ class Pysakki
   attr_accessor :koodi, :osoite, :nimi, :x, :y, :naapurit
 
   def initialize args
-    @koodi = args["koodi"]
-    @osoite = args["osoite"]
-    @nimi = args["nimi"]
-    @x = args["x"]
-    @y = args["y"]
-    @naapurit = args["naapurit"]
+    @koodi, @osoite, @nimi, @x , @y, @naapurit  = args["koodi"], args["osoite"], args["nimi"], args["x"], args["y"], args["naapurit"]
   end
 
 end
@@ -83,18 +78,30 @@ class BFS
     while tulos.parent != nil
       stack.push tulos.parent
       tulos = tulos.parent
-
     end
+    x_koord = []
+    y_koord = []
+    kaikki = []
     while !stack.empty?
       poimittu = stack.pop
-      puts "#{poimittu.pysakki.koodi} --- Matka: #{poimittu.matka}"
+      kaikki << poimittu
+      puts "#{poimittu.pysakki.koodi} #{poimittu.pysakki.nimi} --- Matka: #{poimittu.matka}"
     end
+    kaikki.each do |p|
+      x_koord<< p.pysakki.x
+      y_koord<< p.pysakki.y
+    end
+    x = "x <- c(" + x_koord.join(', ') + ")"
+    y = "y <- c(" + y_koord.join(', ') + ")"
 
+    puts x
+    puts y
   end
 
 end
 
 bfs = BFS.new
-bfs.hae_reitti "1250429", "1121480"
+tulos = bfs.hae_reitti "1250429", "1121480"
+
 
 #"1250429", "1121480"

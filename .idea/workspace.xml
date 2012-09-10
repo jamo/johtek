@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="241bd85b-938c-4888-be64-5d29b1f12586" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/stack.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bfs.rb" afterPath="$PROJECT_DIR$/bfs.rb" />
     </list>
@@ -26,16 +25,7 @@
       <file leaf-file-name="bfs.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bfs.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="0" selection-start="1916" selection-end="1916" vertical-scroll-proportion="0.5476923">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="stack.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/stack.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="3" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0">
+            <state line="99" column="132" selection-start="2339" selection-end="2339" vertical-scroll-proportion="1.1507692">
               <folding />
             </state>
           </provider>
@@ -350,7 +340,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bfs.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="0" selection-start="1916" selection-end="1916" vertical-scroll-proportion="0.5476923">
+        <state line="99" column="132" selection-start="2339" selection-end="2339" vertical-scroll-proportion="1.1507692">
           <folding />
         </state>
       </provider>
