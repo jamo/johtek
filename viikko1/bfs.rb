@@ -7,7 +7,7 @@ class Pysakki
   attr_accessor :koodi, :osoite, :nimi, :x, :y, :naapurit
 
   def initialize args
-    @koodi, @osoite, @nimi, @x , @y, @naapurit  = args["koodi"], args["osoite"], args["nimi"], args["x"], args["y"], args["naapurit"]
+    @koodi, @osoite, @nimi, @x, @y, @naapurit = args["koodi"], args["osoite"], args["nimi"], args["x"], args["y"], args["naapurit"]
   end
 
 end
@@ -15,7 +15,7 @@ end
 class Node
   attr_accessor :pysakki, :visited, :matka, :parent
 
-  def initialize pysakki, matka, parent, visited = true
+  def initialize pysakki, matka, parent, visited
     @pysakki = pysakki
     @matka = matka
     @parent = parent
@@ -24,6 +24,14 @@ class Node
 
   def naapurit
     pysakki.naapurit
+  end
+
+  def vieraile
+    @visited = true
+  end
+
+  def visited?
+    @visited
   end
 
 end
@@ -54,26 +62,33 @@ class BFS
     puts "alku #{alku}"
     puts "loppu #{loppu}"
     queue = Queue.new
-    queue << Node.new(@pysakit[alku], 0, nil, true)
+    queue << Node.new(@pysakit[alku], 0, nil, false)
     while !queue.empty?
       pysakki_nyt = queue.pop
-      pysakki_nyt.visited = true
-      pysakki_nyt.naapurit.each do |naapuri|
-        naapuri_pysakki = @pysakit[naapuri[0]] #naapuri[1] on etäisyys - ei huomioida nyt
-        naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt, false
-       #                       pysakki,         matka,               parent,      visited - miksi :)
-        if naapuri_node.pysakki.koodi == loppu
-          return naapuri_node
-        end
-        unless naapuri_node.visited
-          queue << naapuri_node
+      #puts "Pysakki: vierailtu #{pysakki_nyt.visited?}" if pysakki_nyt.visited?
+      unless pysakki_nyt.visited
+        #puts "Pysakki: #{pysakki_nyt.pysakki.koodi} vierailtu: #{pysakki_nyt.visited} klo: #{Time.now}"
+        pysakki_nyt.vieraile
+        #puts "Pysakki - juuri vierailtu: #{pysakki_nyt.visited}"
+        pysakki_nyt.naapurit.each do |naapuri|
+          naapuri_pysakki = @pysakit[naapuri[0]] #naapuri[1] on etäisyys - ei huomioida nyt
+          naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt, false
+                                                 #                       pysakki,         matka,               parent,      visited - miksi :)
+          if naapuri_node.pysakki.koodi == loppu
+            return naapuri_node
+          end
+          unless naapuri_node.visited?
+            queue << naapuri_node
+          end
         end
       end
     end
+
   end
 
   def hae_reitti alku, loppu
-    tulos = haku alku,loppu
+    tulos = haku alku, loppu
+    puts "Reitti haettu. Nyt tulostukseen"
     stack.push tulos
     while tulos.parent != nil
       stack.push tulos.parent
@@ -101,7 +116,12 @@ class BFS
 end
 
 bfs = BFS.new
-tulos = bfs.hae_reitti "1250429", "1121480"
+tulos = bfs.hae_reitti  "1230407", "1203410"
+# ok "1010424", "1220433"
 
+#"1010424", "1220433"
+
+#"1230407", "1203410"
 
 #"1250429", "1121480"
+#nopea ja helppo: "1250429", "1121480"
