@@ -38,12 +38,11 @@ end
 
 
 class BFS
-  attr_accessor :pysakki_array, :pysakit, :json, :stack
+  attr_accessor :pysakki_array, :pysakit, :json, :stack, :x, :y, :dbg
 
   def initialize
-    @pysakki_array = []
-    @pysakit = Hash.new
-    @stack = Stack.new
+    @pysakki_array, @pysakit, @stack = [], Hash.new, Stack.new
+    @dbg = true
     read_json
   end
 
@@ -59,6 +58,7 @@ class BFS
   end
 
   def haku alku, loppu
+    matkat = []
     puts "alku #{alku}"
     puts "loppu #{loppu}"
     queue = Queue.new
@@ -69,6 +69,10 @@ class BFS
       unless pysakki_nyt.visited
         #puts "Pysakki: #{pysakki_nyt.pysakki.koodi} vierailtu: #{pysakki_nyt.visited} klo: #{Time.now}"
         pysakki_nyt.vieraile
+        unless matkat.include? pysakki_nyt.matka
+          matkat << pysakki_nyt.matka
+          puts matkat.last
+        end
         #puts "Pysakki - juuri vierailtu: #{pysakki_nyt.visited}"
         pysakki_nyt.naapurit.each do |naapuri|
           naapuri_pysakki = @pysakit[naapuri[0]] #naapuri[1] on etäisyys - ei huomioida nyt
@@ -106,17 +110,35 @@ class BFS
       x_koord<< p.pysakki.x
       y_koord<< p.pysakki.y
     end
-    x = "x <- c(" + x_koord.join(', ') + ")"
-    y = "y <- c(" + y_koord.join(', ') + ")"
-
-    puts x
-    puts y
+    @x = "x <- c(" + x_koord.join(', ') + ")"
+    @y = "y <- c(" + y_koord.join(', ') + ")"
+    puts @x
+    puts @y
   end
+
+  def write_data
+    file = File.open 'reitti.txt', 'w'
+    file.puts
+    file.puts x
+    file.puts y
+    file.puts %Q{lines(x,y, lwd = 2, col = "orange")}
+    file.close
+  end
+
+  def create_rplot_pdf
+    write_data
+    `cat rplot.txt reitti.txt | r --save Rplots.pdf`
+    puts "rplot created" if @dbg
+  end
+
 
 end
 
 bfs = BFS.new
-tulos = bfs.hae_reitti  "1230407", "1203410"
+tulos = bfs.hae_reitti "1010424", "1220433" #"1250429", "1140436"
+bfs.create_rplot_pdf
+
+#hidas "1230407", "1203410"
 # ok "1010424", "1220433"
 
 #"1010424", "1220433"

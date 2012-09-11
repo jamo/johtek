@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="241bd85b-938c-4888-be64-5d29b1f12586" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/viikko1/pitka_reitti.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viikko1/Rplots.pdf" afterPath="$PROJECT_DIR$/viikko1/Rplots.pdf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viikko1/bfs.rb" afterPath="$PROJECT_DIR$/viikko1/bfs.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viikko1/reitti.txt" afterPath="$PROJECT_DIR$/viikko1/reitti.txt" />
     </list>
     <ignored path="tkoaly.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,7 +28,7 @@
       <file leaf-file-name="bfs.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/viikko1/bfs.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="118" column="44" selection-start="2871" selection-end="2871" vertical-scroll-proportion="0.7582418">
+            <state line="74" column="11" selection-start="1661" selection-end="1661" vertical-scroll-proportion="0.4065934">
               <folding />
             </state>
           </provider>
@@ -34,7 +37,7 @@
       <file leaf-file-name="reitti.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viikko1/reitti.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="114" selection-start="230" selection-end="230" vertical-scroll-proportion="0.0">
+            <state line="4" column="0" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -55,6 +58,7 @@
       <list>
         <option value="$PROJECT_DIR$/stack.rb" />
         <option value="$PROJECT_DIR$/bfs.rb" />
+        <option value="$PROJECT_DIR$/viikko1/pitka_reitti.txt" />
         <option value="$PROJECT_DIR$/viikko1/reitti.txt" />
         <option value="$PROJECT_DIR$/viikko1/bfs.rb" />
       </list>
@@ -341,14 +345,21 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/viikko1/reitti.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="114" selection-start="230" selection-end="230" vertical-scroll-proportion="0.0">
+        <state line="4" column="0" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viikko1/pitka_reitti.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="136" selection-start="446" selection-end="446" vertical-scroll-proportion="0.06593407">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/viikko1/bfs.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="44" selection-start="2871" selection-end="2871" vertical-scroll-proportion="0.7582418">
+        <state line="74" column="11" selection-start="1661" selection-end="1661" vertical-scroll-proportion="0.4065934">
           <folding />
         </state>
       </provider>
