@@ -26,7 +26,7 @@
       <file leaf-file-name="bfs.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/viikko1/bfs.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="133" column="43" selection-start="3210" selection-end="3210" vertical-scroll-proportion="0.58756137">
+            <state line="67" column="42" selection-start="1250" selection-end="1250" vertical-scroll-proportion="-0.83076924">
               <folding />
             </state>
           </provider>
@@ -35,7 +35,7 @@
       <file leaf-file-name="reitti.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viikko1/reitti.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
+            <state line="4" column="0" selection-start="447" selection-end="447" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -358,7 +358,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/viikko1/reitti.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
+        <state line="4" column="0" selection-start="447" selection-end="447" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -372,7 +372,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/viikko1/bfs.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="43" selection-start="3210" selection-end="3210" vertical-scroll-proportion="0.58756137">
+        <state line="67" column="42" selection-start="1250" selection-end="1250" vertical-scroll-proportion="-0.83076924">
           <folding />
         </state>
       </provider>

@@ -33,6 +33,10 @@ class Node
     @visited
   end
 
+  def koodi
+    @pysakki.koodi
+  end
+
 end
 
 
@@ -59,25 +63,21 @@ class BFS
 
   def haku alku, loppu
     matkat = []
-    puts "alku #{alku}"
-    puts "loppu #{loppu}"
+    puts "alku #{alku} --- loppu #{loppu}"
     queue = Queue.new
     queue << Node.new(@pysakit[alku], 0, nil)
     while !queue.empty?
       pysakki_nyt = queue.pop
-      #puts "pysakki_nyt #{pysakki_nyt}"
-      #puts "Pysakki: vierailtu #{pysakki_nyt.visited?}" if pysakki_nyt.visited?
       unless @visited.include? pysakki_nyt.pysakki.koodi
         @visited << pysakki_nyt.pysakki.koodi
-        puts "Pysakki - juuri vierailtu: #{pysakki_nyt.visited}" if @dbg
         pysakki_nyt.naapurit.each do |naapuri|
           naapuri_pysakki = @pysakit[naapuri[0]] #naapuri[1] on etäisyys - ei huomioida nyt
           naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt
-                                                 #                       pysakki,         matka,               parent,      visited - miksi :)
-          if naapuri_node.pysakki.koodi == loppu
+         #                        pysakki,          matka,               parent
+          if naapuri_node.koodi == loppu
             return naapuri_node
           end
-          unless @visited.include? naapuri_node.pysakki.koodi
+          unless @visited.include? naapuri_node.koodi
             queue << naapuri_node
           end
         end
