@@ -15,11 +15,10 @@ end
 class Node
   attr_accessor :pysakki, :visited, :matka, :parent
 
-  def initialize pysakki, matka, parent, visited
+  def initialize pysakki, matka, parent
     @pysakki = pysakki
     @matka = matka
     @parent = parent
-    @visited = visited
   end
 
   def naapurit
@@ -38,11 +37,12 @@ end
 
 
 class BFS
-  attr_accessor :pysakki_array, :pysakit, :json, :stack, :x, :y, :dbg
+  attr_accessor :pysakki_array, :pysakit, :json, :stack, :x, :y, :dbg, :visited
 
   def initialize
     @pysakki_array, @pysakit, @stack = [], Hash.new, Stack.new
     @dbg = true
+    @visited = []
     read_json
   end
 
@@ -62,26 +62,22 @@ class BFS
     puts "alku #{alku}"
     puts "loppu #{loppu}"
     queue = Queue.new
-    queue << Node.new(@pysakit[alku], 0, nil, false)
+    queue << Node.new(@pysakit[alku], 0, nil)
     while !queue.empty?
       pysakki_nyt = queue.pop
+      #puts "pysakki_nyt #{pysakki_nyt}"
       #puts "Pysakki: vierailtu #{pysakki_nyt.visited?}" if pysakki_nyt.visited?
-      unless pysakki_nyt.visited
-        #puts "Pysakki: #{pysakki_nyt.pysakki.koodi} vierailtu: #{pysakki_nyt.visited} klo: #{Time.now}"
-        pysakki_nyt.vieraile
-        unless matkat.include? pysakki_nyt.matka
-          matkat << pysakki_nyt.matka
-          puts matkat.last
-        end
-        #puts "Pysakki - juuri vierailtu: #{pysakki_nyt.visited}"
+      unless @visited.include? pysakki_nyt.pysakki.koodi
+        @visited << pysakki_nyt.pysakki.koodi
+        puts "Pysakki - juuri vierailtu: #{pysakki_nyt.visited}" if @dbg
         pysakki_nyt.naapurit.each do |naapuri|
           naapuri_pysakki = @pysakit[naapuri[0]] #naapuri[1] on etäisyys - ei huomioida nyt
-          naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt, false
+          naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt
                                                  #                       pysakki,         matka,               parent,      visited - miksi :)
           if naapuri_node.pysakki.koodi == loppu
             return naapuri_node
           end
-          unless naapuri_node.visited?
+          unless @visited.include? naapuri_node.pysakki.koodi
             queue << naapuri_node
           end
         end
@@ -135,7 +131,8 @@ class BFS
 end
 
 bfs = BFS.new
-tulos = bfs.hae_reitti "1010424", "1220433" #"1250429", "1140436"
+tulos = bfs.hae_reitti "1230407", "1203410"
+#"1010424", "1220433" #"1250429", "1140436"
 bfs.create_rplot_pdf
 
 #hidas "1230407", "1203410"
