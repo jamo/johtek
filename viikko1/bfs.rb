@@ -13,7 +13,7 @@ class Pysakki
 end
 
 class Node
-  attr_accessor :pysakki, :visited, :matka, :parent
+  attr_accessor :pysakki, :matka, :parent
 
   def initialize pysakki, matka, parent
     @pysakki = pysakki
@@ -23,14 +23,6 @@ class Node
 
   def naapurit
     pysakki.naapurit
-  end
-
-  def vieraile
-    @visited = true
-  end
-
-  def visited?
-    @visited
   end
 
   def koodi
@@ -62,14 +54,13 @@ class BFS
   end
 
   def haku alku, loppu
-    matkat = []
     puts "alku #{alku} --- loppu #{loppu}"
     queue = Queue.new
     queue << Node.new(@pysakit[alku], 0, nil)
     while !queue.empty?
       pysakki_nyt = queue.pop
-      unless @visited.include? pysakki_nyt.pysakki.koodi
-        @visited << pysakki_nyt.pysakki.koodi
+      unless @visited.include? pysakki_nyt.koodi
+        @visited << pysakki_nyt.koodi
         pysakki_nyt.naapurit.each do |naapuri|
           naapuri_pysakki = @pysakit[naapuri[0]] #naapuri[1] on etäisyys - ei huomioida nyt
           naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt
@@ -108,8 +99,8 @@ class BFS
     end
     @x = "x <- c(" + x_koord.join(', ') + ")"
     @y = "y <- c(" + y_koord.join(', ') + ")"
-    puts @x
-    puts @y
+    #puts @x
+    #puts @y
   end
 
   def write_data
@@ -131,16 +122,33 @@ class BFS
 end
 
 bfs = BFS.new
-tulos = bfs.hae_reitti "1230407", "1203410"
-#"1010424", "1220433" #"1250429", "1140436"
-bfs.create_rplot_pdf
 
-#hidas "1230407", "1203410"
-# ok "1010424", "1220433"
+if ARGV[0] and ARGV[1]
+  tulos = bfs.hae_reitti ARGV[0], ARGV[1]
+  bfs.create_rplot_pdf
+else
+  tulos = bfs.hae_reitti "1230407", "1203410"#{}"1230407", "1203410"
+  bfs.create_rplot_pdf
+end
 
-#"1010424", "1220433"
 
-#"1230407", "1203410"
+#tulos = bfs.hae_reitti "1250429", "1140436"
+#bfs.create_rplot_pdf
+#puts "Valmis"
+#gets
+#tulos = bfs.hae_reitti "1010424", "1220433"
+#bfs.create_rplot_pdf
+#puts "Valmis"
+#gets
+#tulos = bfs.hae_reitti "1230407", "1203410"
+#bfs.create_rplot_pdf
+#puts "Valmis"
+#gets
+#tulos = bfs.hae_reitti "1250429", "1121480"
+#bfs.create_rplot_pdf
+#puts "Valmis"
+#gets
+#tulos = bfs.hae_reitti "1250429", "1121480"
+#bfs.create_rplot_pdf
+#puts "Loppu"
 
-#"1250429", "1121480"
-#nopea ja helppo: "1250429", "1121480"
