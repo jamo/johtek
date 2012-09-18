@@ -33,8 +33,9 @@ end
 # odotusaika pysakilla=parent? ennen matkaa
 
 class Node
-  attr_accessor :pysakki, :matka, :parent, :linja, :aika_maaliin, :valimatkan_aika, :aika_yhteensa, :odotus_aika
+  attr_accessor :pysakki, :matka, :parent, :linja, :aika_maaliin, :valimatkan_aika, :aika_yhteensa, :odotus_aika, :klo_nyt
 
+=begin
   @klo_nyt
 
   def klo_nyt= aika
@@ -42,8 +43,13 @@ class Node
   end
 
   def klo_nyt
-    @klo_nyt + @aika_yhteensa
+    if @aika_yhteensa and @klo_nyt
+      @klo_nyt + @aika_yhteensa
+    else
+      0
+    end
   end
+=end
 
   def initialize pysakki, matka, parent, linja, heur_aika_maaliin
     @pysakki = pysakki
@@ -172,10 +178,11 @@ class AStar
           #         pysäkki jonka naapureita läpikäydään, yksi naapuri, linja
           naapuri_node.odotus_aika=odotusaika(pysakki_nyt, @linjat[naapuri[1][0]])
           naapuri_node.aika_yhteensa=pysakki_nyt.aika_yhteensa+naapuri_node.odotus_aika+naapuri_node.valimatkan_aika
+          naapuri_node.klo_nyt=naapuri_node.aika_yhteensa+alku_aika
           return naapuri_node if naapuri_node.koodi == loppu
           unless @visited.include? naapuri_node.koodi
             puts "arvostus: #{naapuri_node.aika_maaliin} nyt: #{naapuri_pysakki.koodi}, loppu: #{loppu}"
-            queue.push(naapuri_node, (naapuri_node.aika_maaliin+naapuri_node.aika_yhteensa))
+            queue.push(naapuri_node, (naapuri_node.aika_maaliin + -(naapuri_node.aika_yhteensa)))
             @jonossa_olleet.push naapuri_node
           end
         end
@@ -254,6 +261,6 @@ class AStar
 end
 
 a = AStar.new
-a.hae_reitti "1230407", "1203410", 0# "1250429", "1121480", 2
+a.hae_reitti "1250429", "1121480", 2
 a.create_rplot_pdf
 #AStar.new.hae_reitti "1230407", "1203410", 0
