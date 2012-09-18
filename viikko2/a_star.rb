@@ -181,7 +181,7 @@ class AStar
           naapuri_node.klo_nyt=naapuri_node.aika_yhteensa+alku_aika
           return naapuri_node if naapuri_node.koodi == loppu
           unless @visited.include? naapuri_node.koodi
-            puts "arvostus: #{naapuri_node.aika_maaliin} nyt: #{naapuri_pysakki.koodi}, loppu: #{loppu}"
+            puts "arvostus: #{naapuri_node.aika_maaliin.to_s.gsub('-','')} nyt: #{naapuri_pysakki.koodi}, loppu: #{loppu}"
             queue.push(naapuri_node, (naapuri_node.aika_maaliin + -(naapuri_node.aika_yhteensa)))
             @jonossa_olleet.push naapuri_node
           end
@@ -193,7 +193,7 @@ class AStar
 
   #
   #Printtaillaan koko reitti
-  def hae_reitti alku, loppu, aika
+  def hae_reitti alku, loppu, aika=0
     tulos = haku alku, loppu, aika
     puts "Reitti haettu. Nyt tulostukseen"
     stack.push tulos
@@ -230,10 +230,10 @@ class AStar
     @jx = "x <- c(" + jxkoord.join(', ') +")"
     @jy = "x <- c(" + jykoord.join(', ') +")"
 
-    puts
-    puts "etsityt pysakit"
-    puts @jx
-    puts @jy
+   # puts
+   # puts "etsityt pysakit"
+   # puts @jx
+   # puts @jy
   end
 
   def write_data
@@ -264,3 +264,6 @@ a = AStar.new
 a.hae_reitti "1250429", "1121480", 2
 a.create_rplot_pdf
 #AStar.new.hae_reitti "1230407", "1203410", 0
+
+#Pitka, oik -> vas reunaan "1230407", "1203410"
+#Keskustassa... "1010424", "1220433"
