@@ -31,15 +31,26 @@ end
 #Odotusaika, paljonko pysakilla pitää odotella
 # valimatkan_aika kuljetun välin kesto
 # odotusaika pysakilla=parent? ennen matkaa
-class Node
-  attr_accessor :pysakki, :matka, :parent, :linja, :aika_maaliin, :valimatkan_aika, :odotusaika, :aika_yhteensa
 
-  def initialize pysakki, matka, parent, linja, aika_maaliin
+class Node
+  attr_accessor :pysakki, :matka, :parent, :linja, :aika_maaliin, :valimatkan_aika, :aika_yhteensa, :odotus_aika
+
+  @klo_nyt
+
+  def klo_nyt= aika
+    @klo_nyt=aika
+  end
+
+  def klo_nyt
+    @klo_nyt + @aika_yhteensa
+  end
+
+  def initialize pysakki, matka, parent, linja, heur_aika_maaliin
     @pysakki = pysakki
     @matka = matka
     @parent = parent
     @linja = linja
-    @aika_maaliin = aika_maaliin
+    @aika_maaliin = heur_aika_maaliin
   end
 
 
@@ -63,8 +74,9 @@ class Node
     lopputulos = "Koodi: #{@pysakki.koodi} "
     lopputulos << "Linja: #{@linja.koodi}" if @linja
     lopputulos << " Valimatka: #{@valimatkan_aika} Matka(askelia):#{@matka}"
-    lopputulos << " odotusaika: #{@odotusaika}"
+    lopputulos << " odotusaika: #{@odotus_aika}"
     lopputulos << " aika_yhteensa #{@aika_yhteensa}"
+    lopputulos << " kello_nyt #{@klo_nyt}"
     lopputulos
   end
 
@@ -74,6 +86,7 @@ end
 class AStar
 
   attr_accessor :json_verkko, :json_linjat, :pysakki_array, :pysakit, :linjat_array, :linjat, :visited, :stack, :x, :y, :jonossa_olleet, :jx, :jy
+  attr_accessor :nodes
 
   def initialize
     @pysakki_array, @pysakit, @linjat_array = [], {}, []
@@ -83,6 +96,7 @@ class AStar
     @jonossa_olleet = []
     @jx = []
     @jx = []
+    @nodes = Hash.new
 
     read_json
   end
@@ -112,31 +126,38 @@ class AStar
     -((curr.x- @pysakit[goal].x).abs + (curr.y - @pysakit[goal].y).abs)/526
   end
 
-  def aika curr, seur, linja
-    toka_indeksi = linja.pysKoodit.index seur[0]
-    eka_indeksi = linja.pysKoodit.index curr.koodi
+  def valimatkan_aika edeltaja, nykyinen, linja
+    toka_indeksi = linja.pysKoodit.index nykyinen[0]
+    eka_indeksi = linja.pysKoodit.index edeltaja.koodi
     linja.psAjat[toka_indeksi]-linja.psAjat[eka_indeksi]
   end
 
   def odotusaika pysakki_nyt, linja
-    indeksi = linja.pysKoodit.index pysakki_nyt.koodi
-    vali = linja.psAjat[indeksi] %10
-    kohta = pysakki_nyt.aika_yhteensa%10
+    indeksi = linja.pysKoodit.index(pysakki_nyt.koodi)
+    montako_minuuttia_pysakille = linja.psAjat[indeksi]
+    odotus=montako_minuuttia_pysakille%10-pysakki_nyt.aika_yhteensa%10
+    #puts "odotus: #{odotus}"
+    odotus+=10 if odotus < 0
+    odotus
+  end
 
-    binding.pry
-    (vali-kohta).abs
+  def create_node pysakki, matka, parent, linja, heur_arvio
+    palautettava = @nodes[pysakki.koodi]
+    return palautettava if palautettava
+    Node.new pysakki, matka, parent, linja, heur_arvio
   end
 
   def haku alku="1250429", loppu="1121480", alku_aika=0
-    puts "alku #{alku} --- loppu #{loppu}"
+    puts "alku #{alku} --- loppu #{loppu} --- alkuaika #{alku_aika}"
     queue = Containers::PriorityQueue.new
     alku_node = Node.new @pysakit[alku], 0, nil, nil, (heur @pysakit[alku], loppu)
     alku_node.valimatkan_aika=0
     alku_node.aika_yhteensa=0
-    alku_node.odotusaika=0
+    alku_node.odotus_aika=0
+    alku_node.klo_nyt=alku_aika
+    @nodes[alku_node.koodi] = alku_node
     queue.push alku_node, alku_node.aika_maaliin
     @jonossa_olleet.push alku_node
-
 
     #välimatkan_aika on parent..self
     while !queue.empty?
@@ -145,20 +166,17 @@ class AStar
         @visited.push pysakki_nyt.koodi
         pysakki_nyt.naapurit.each do |naapuri|
           naapuri_pysakki = @pysakit[naapuri[0]]
-          naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt, @linjat[naapuri[1][0]], heur(naapuri_pysakki, loppu)
-
-          naapuri_node.odotusaika=odotusaika(pysakki_nyt, @linjat[naapuri[1][0]])
-          naapuri_node.valimatkan_aika=aika pysakki_nyt, naapuri, @linjat[naapuri[1][0]]
-          naapuri_node.aika_yhteensa=pysakki_nyt.aika_yhteensa+naapuri_node.odotusaika+naapuri_node.valimatkan_aika
-          #                       pysakki,          matka,               parent
-          if naapuri_node.koodi == loppu
-            return naapuri_node
-          end
+          naapuri_node = create_node naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt, @linjat[naapuri[1][0]], heur(naapuri_pysakki, loppu)
+          #                       pysakki,          matka,               parent       linja                    matka linnuntietä
+          naapuri_node.valimatkan_aika = valimatkan_aika pysakki_nyt, naapuri, @linjat[naapuri[1][0]]
+          #         pysäkki jonka naapureita läpikäydään, yksi naapuri, linja
+          naapuri_node.odotus_aika=odotusaika(pysakki_nyt, @linjat[naapuri[1][0]])
+          naapuri_node.aika_yhteensa=pysakki_nyt.aika_yhteensa+naapuri_node.odotus_aika+naapuri_node.valimatkan_aika
+          return naapuri_node if naapuri_node.koodi == loppu
           unless @visited.include? naapuri_node.koodi
             puts "arvostus: #{naapuri_node.aika_maaliin} nyt: #{naapuri_pysakki.koodi}, loppu: #{loppu}"
-            queue.push naapuri_node, naapuri_node.aika_maaliin
+            queue.push(naapuri_node, (naapuri_node.aika_maaliin+naapuri_node.aika_yhteensa))
             @jonossa_olleet.push naapuri_node
-            #binding.pry
           end
         end
       end
@@ -211,8 +229,31 @@ class AStar
     puts @jy
   end
 
+  def write_data
+    file = File.open 'reitti.txt', 'w'
+    file.puts
+    file.puts @x
+    file.puts @y
+    file.puts %Q{lines(x,y, lwd = 2, col = "orange")}
+    #file.puts
+    #file.puts @jx
+    #file.puts @jy
+    #file.puts %Q{points(x,y, lwd = 2, col = "green")}
+
+
+    file.close
+  end
+
+  def create_rplot_pdf
+    write_data
+    `cat rplot.txt reitti.txt | r --save Rplots.pdf`
+    puts "rplot created"
+  end
+
 
 end
 
-AStar.new.hae_reitti "1250429", "1121480", 0
+a = AStar.new
+a.hae_reitti "1230407", "1203410", 0# "1250429", "1121480", 2
+a.create_rplot_pdf
 #AStar.new.hae_reitti "1230407", "1203410", 0
