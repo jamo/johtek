@@ -98,7 +98,7 @@ class AStar
   end
 
   def heur curr, goal
-    ((curr.x- @pysakit[goal].x).abs + (curr.y - @pysakit[goal].y).abs)/526
+    -((curr.x- @pysakit[goal].x).abs + (curr.y - @pysakit[goal].y).abs)/526
   end
 
   def aika curr, seur, linja
@@ -114,6 +114,8 @@ class AStar
     alku_node = Node.new @pysakit[alku], 0, nil, nil, (heur @pysakit[alku], loppu)
     alku_node.kulunut_aika=0
     queue.push alku_node, alku_node.aika_maaliin
+
+
     while !queue.empty?
       pysakki_nyt = queue.pop
       unless @visited.include? pysakki_nyt.koodi
@@ -127,8 +129,9 @@ class AStar
             return naapuri_node
           end
           unless @visited.include? naapuri_node.koodi
-            puts "arvostus: #{naapuri_node.aika_maaliin} alku: #{naapuri_pysakki.koodi}, loppu: #{loppu}"
+            puts "arvostus: #{naapuri_node.aika_maaliin} nyt: #{naapuri_pysakki.koodi}, loppu: #{loppu}"
             queue.push naapuri_node, naapuri_node.aika_maaliin
+            #binding.pry
           end
         end
       end
@@ -153,6 +156,12 @@ class AStar
       puts poimittu
       #puts "#{poimittu.pysakki.koodi} #{poimittu.pysakki.nimi} Pysakki: #{poimittu.pysakki.koodi} --- Matka: #{poimittu.matka}"
     end
+    kaikki.each do |p|
+      x_koord<< p.pysakki.x
+      y_koord<< p.pysakki.y
+    end
+    @x = "x <- c(" + x_koord.join(', ') + ")"
+    @y = "y <- c(" + y_koord.join(', ') + ")"
   end
 
 

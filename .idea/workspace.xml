@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="241bd85b-938c-4888-be64-5d29b1f12586" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/jamo.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viikko2/a_star.rb" afterPath="$PROJECT_DIR$/viikko2/a_star.rb" />
     </list>
@@ -28,7 +25,7 @@
       <file leaf-file-name="a_star.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/viikko2/a_star.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="107" column="29" selection-start="2474" selection-end="2474" vertical-scroll-proportion="0.4065934">
+            <state line="133" column="13" selection-start="3668" selection-end="3668" vertical-scroll-proportion="0.51648355">
               <folding />
             </state>
           </provider>
@@ -46,7 +43,7 @@
       <file leaf-file-name="bfs.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viikko1/bfs.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="45" selection-end="72" vertical-scroll-proportion="0.0">
+            <state line="100" column="48" selection-start="2270" selection-end="2444" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -495,14 +492,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/viikko1/bfs.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="45" selection-end="72" vertical-scroll-proportion="0.0">
+        <state line="100" column="48" selection-start="2270" selection-end="2444" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/viikko2/a_star.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="29" selection-start="2474" selection-end="2474" vertical-scroll-proportion="0.4065934">
+        <state line="133" column="13" selection-start="3668" selection-end="3668" vertical-scroll-proportion="0.51648355">
           <folding />
         </state>
       </provider>
