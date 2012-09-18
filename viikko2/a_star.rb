@@ -59,11 +59,12 @@ class Node
   end
 
 
-  def to_s
+  def to_ss
     lopputulos = "Koodi: #{@pysakki.koodi} "
     lopputulos << "Linja: #{@linja.koodi}" if @linja
-    lopputulos << " Aikaa kulunut: #{@valimatkan_aika} Matka:#{@matka}"
+    lopputulos << " Valimatka: #{@valimatkan_aika} Matka(askelia):#{@matka}"
     lopputulos << " odotusaika: #{@odotusaika}"
+    lopputulos << " aika_yhteensa #{@aika_yhteensa}"
     lopputulos
   end
 
@@ -118,10 +119,15 @@ class AStar
   end
 
   def odotusaika pysakki_nyt, linja
-     4# binding.pry
+    indeksi = linja.pysKoodit.index pysakki_nyt.koodi
+    vali = linja.psAjat[indeksi] %10
+    kohta = pysakki_nyt.aika_yhteensa%10
+
+    binding.pry
+    (vali-kohta).abs
   end
 
-  def haku alku="1250429", loppu="1121480", aika=0
+  def haku alku="1250429", loppu="1121480", alku_aika=0
     puts "alku #{alku} --- loppu #{loppu}"
     queue = Containers::PriorityQueue.new
     alku_node = Node.new @pysakit[alku], 0, nil, nil, (heur @pysakit[alku], loppu)
@@ -132,6 +138,7 @@ class AStar
     @jonossa_olleet.push alku_node
 
 
+    #välimatkan_aika on parent..self
     while !queue.empty?
       pysakki_nyt = queue.pop
       unless @visited.include? pysakki_nyt.koodi
@@ -141,8 +148,8 @@ class AStar
           naapuri_node = Node.new naapuri_pysakki, pysakki_nyt.matka+1, pysakki_nyt, @linjat[naapuri[1][0]], heur(naapuri_pysakki, loppu)
 
           naapuri_node.odotusaika=odotusaika(pysakki_nyt, @linjat[naapuri[1][0]])
-          binding.pry
-          naapuri_node.aika_yhteensa=pysakki_nyt.aika_yhteensa+pysakki_nyt.odotusaika+pysakki_nyt.valimatkan_aika
+          naapuri_node.valimatkan_aika=aika pysakki_nyt, naapuri, @linjat[naapuri[1][0]]
+          naapuri_node.aika_yhteensa=pysakki_nyt.aika_yhteensa+naapuri_node.odotusaika+naapuri_node.valimatkan_aika
           #                       pysakki,          matka,               parent
           if naapuri_node.koodi == loppu
             return naapuri_node
@@ -175,7 +182,7 @@ class AStar
     while !stack.empty?
       poimittu = stack.pop
       kaikki << poimittu
-      puts poimittu
+      puts poimittu.to_ss
       #puts "#{poimittu.pysakki.koodi} #{poimittu.pysakki.nimi} Pysakki: #{poimittu.pysakki.koodi} --- Matka: #{poimittu.matka}"
     end
     kaikki.each do |p|
@@ -192,12 +199,11 @@ class AStar
     jykoord = []
     jxkoord=[]
     @jonossa_olleet.each do |j|
-
       jxkoord << j.pysakki.x
       jykoord << j.pysakki.y
     end
-    @jx =   "x <- c(" + jxkoord.join(', ') +")"
-    @jy =   "x <- c(" + jykoord.join(', ') +")"
+    @jx = "x <- c(" + jxkoord.join(', ') +")"
+    @jy = "x <- c(" + jykoord.join(', ') +")"
 
     puts
     puts "etsityt pysakit"
@@ -208,5 +214,5 @@ class AStar
 
 end
 
-#AStar.new.hae_reitti "1250429", "1121480", 0
-AStar.new.hae_reitti "1230407", "1203410", 0
+AStar.new.hae_reitti "1250429", "1121480", 0
+#AStar.new.hae_reitti "1230407", "1203410", 0
