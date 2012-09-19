@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="241bd85b-938c-4888-be64-5d29b1f12586" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viikko2/.RData" afterPath="$PROJECT_DIR$/viikko2/.RData" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viikko2/Rplots.pdf" afterPath="$PROJECT_DIR$/viikko2/Rplots.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viikko2/a_star.rb" afterPath="$PROJECT_DIR$/viikko2/a_star.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viikko2/reitti.txt" afterPath="$PROJECT_DIR$/viikko2/reitti.txt" />
-    </list>
+    <list default="true" id="241bd85b-938c-4888-be64-5d29b1f12586" name="Default" comment="" />
     <ignored path="tkoaly.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,7 +22,7 @@
       <file leaf-file-name="a_star.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/viikko2/a_star.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="263" column="13" selection-start="7250" selection-end="7250" vertical-scroll-proportion="0.84615386">
+            <state line="254" column="28" selection-start="7131" selection-end="7131" vertical-scroll-proportion="0.64835167">
               <folding />
             </state>
           </provider>
@@ -483,7 +477,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/viikko2/a_star.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="263" column="13" selection-start="7250" selection-end="7250" vertical-scroll-proportion="0.84615386">
+        <state line="254" column="28" selection-start="7131" selection-end="7131" vertical-scroll-proportion="0.64835167">
           <folding />
         </state>
       </provider>

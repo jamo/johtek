@@ -35,22 +35,6 @@ end
 class Node
   attr_accessor :pysakki, :matka, :parent, :linja, :aika_maaliin, :valimatkan_aika, :aika_yhteensa, :odotus_aika, :klo_nyt
 
-=begin
-  @klo_nyt
-
-  def klo_nyt= aika
-    @klo_nyt=aika
-  end
-
-  def klo_nyt
-    if @aika_yhteensa and @klo_nyt
-      @klo_nyt + @aika_yhteensa
-    else
-      0
-    end
-  end
-=end
-
   def initialize pysakki, matka, parent, linja, heur_aika_maaliin
     @pysakki = pysakki
     @matka = matka
@@ -67,6 +51,10 @@ class Node
   def koodi
     @pysakki.koodi
   end
+  
+  def nimi
+    @pysakki.nimi
+  end
 
   #välimatka väliltä parent..self
   def valimatka
@@ -77,8 +65,9 @@ class Node
 
 
   def to_ss
-    lopputulos = "Koodi: #{@pysakki.koodi} "
-    lopputulos << "Linja: #{@linja.koodi}" if @linja
+    lopputulos = "Koodi: #{@pysakki.koodi}"
+    lopputulos << "  Nimi: #{@pysakki.nimi} \t" 
+    lopputulos << " Linja: #{@linja.koodi}" if @linja
     lopputulos << " Valimatka: #{@valimatkan_aika} Matka(askelia):#{@matka}"
     lopputulos << " odotusaika: #{@odotus_aika}"
     lopputulos << " aika_yhteensa #{@aika_yhteensa}"
@@ -101,7 +90,7 @@ class AStar
     @linjat = Hash.new
     @jonossa_olleet = []
     @jx = []
-    @jx = []
+    @jy = []
     @nodes = Hash.new
 
     read_json
@@ -130,6 +119,7 @@ class AStar
   #Priorityqueuen takia arvot negatiivisina :)
   def heur curr, goal
     -((curr.x- @pysakit[goal].x).abs + (curr.y - @pysakit[goal].y).abs)/526
+    #korjaa
   end
 
   def valimatkan_aika edeltaja, nykyinen, linja
@@ -228,12 +218,12 @@ class AStar
       jykoord << j.pysakki.y
     end
     @jx = "x <- c(" + jxkoord.join(', ') +")"
-    @jy = "x <- c(" + jykoord.join(', ') +")"
+    @jy = "y <- c(" + jykoord.join(', ') +")"
 
    # puts
-   # puts "etsityt pysakit"
-   # puts @jx
-   # puts @jy
+  puts "etsityt pysakit"
+   puts @jx
+   #puts @jy
   end
 
   def write_data
@@ -242,10 +232,10 @@ class AStar
     file.puts @x
     file.puts @y
     file.puts %Q{lines(x,y, lwd = 2, col = "orange")}
-    #file.puts
-    #file.puts @jx
-    #file.puts @jy
-    #file.puts %Q{points(x,y, lwd = 2, col = "green")}
+    file.puts
+    file.puts @jx
+    file.puts @jy
+    file.puts %Q{points(x,y, lwd = 2, col = "green")}
 
 
     file.close
@@ -260,9 +250,31 @@ class AStar
 
 end
 
-a = AStar.new
-a.hae_reitti "1250429", "1121480", 2
-a.create_rplot_pdf
+a=AStar.new
+if ARGV[0] and ARGV[1] and ARGV[2]
+  tulos = a.hae_reitti ARGV[0], ARGV[1], ARGV[2] 
+  a.create_rplot_pdf
+else
+  tulos = a.hae_reitti  "1230407", "1203410"#"1250429", "1121480"
+  a.create_rplot_pdf
+
+end
+
+
+
+
+
+
+
+
+
+
+#"1250429", "1121480"#"1230407", "1203410"#{}"1230407", "1203410"
+  #"1230407", "1203410"#Pitkä
+#a = AStar.new
+#a.hae_reitti 114052
+#"1250429", "1121480", 2
+#a.create_rplot_pdf
 #AStar.new.hae_reitti "1230407", "1203410", 0
 
 #Pitka, oik -> vas reunaan "1230407", "1203410"
