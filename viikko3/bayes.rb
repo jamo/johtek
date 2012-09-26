@@ -84,17 +84,19 @@ end
 def laske
   al_nollat = 0
   bl_nollat = 0
-  n = 100000000
+  l_nolla = 0
+  n = 10000000
   n.times do
     tulos = do_it.split(', ')
 
     al_nollat = al_nollat+1 if tulos[5]=='0' and tulos[0]=='0'
+    l_nolla = l_nolla+1 if tulos[5] == '0'
     bl_nollat = bl_nollat+1 if tulos[5]=='0' and tulos[3]=='0'
   end
 
   puts "Suoritettiin #{n} kertaa"
-  puts "A ja L == 0: #{al_nollat} kertaa eli #{al_nollat/n.to_f}%"
-  puts "b ja L == 0: #{bl_nollat} kertaa eli #{bl_nollat/n.to_f}%"
+  puts "A ja L == 0: #{al_nollat} kertaa eli #{al_nollat/l_nolla.to_f}%"
+  puts "b ja L == 0: #{bl_nollat} kertaa eli #{bl_nollat/l_nolla.to_f}%"
 end
 
 laske
