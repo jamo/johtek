@@ -1,0 +1,7 @@
+Suoritettiin 100000000 kertaa
+A ja L == 0: 9902695 kertaa eli 0.09902695%
+b ja L == 0: 4951659 kertaa eli 0.04951659%
+
+real	19m49.791s
+user	19m46.458s
+sys	0m2.464s

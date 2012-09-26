@@ -1,4 +1,4 @@
-require 'pry'
+#require 'pry'
 =begin
 def generoi_monikkoja n, malli
   for i in 1..N
