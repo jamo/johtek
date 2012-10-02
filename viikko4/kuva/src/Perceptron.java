@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Perceptron {
 
-    static int targetChar = 7;    // tama on plus-luokka
+    static int targetChar = 0;    // tama on plus-luokka
     static int oppositeChar = 1;  // tama on miinus-luokka
     static Vector<Image> I = new Vector<>();
 
@@ -43,60 +43,30 @@ public class Perceptron {
     static double[] train(int steps) {
         Random rand = new Random();
         double[] w = new double[28 * 28];
-        double kynnys = 0.1; //kynnys
-        double learnrate = 0.001; //learning rate
+        for (int example = 0; example < steps; example++) {
 
-        for (int i = 0; i < w.length; i++) {    //alustetaan random-painot
-            w[i] = rand.nextDouble();
-        }
-
-
-//        while (test(w) > kynnys) {
-
-            for (int j = 0; j < steps; j++) {
-                Image img = I.elementAt(j);
-                int z = 0;
+            // valitetaan vain + ja - -luokista.
+            if (I.elementAt(example).characterClass != targetChar
+                    && I.elementAt(example).characterClass != oppositeChar) {
+                continue;
+            }
+            // laske z
+            double z = 0.0;
+            for (int j = 0; j < 28 * 28; j++) {
+                z += I.elementAt(example).vec[j] * w[j];
+            }
+            // oliko luokitus oikein?
+            if ((z >= 0 && I.elementAt(example).characterClass != targetChar)) {//  z < 0 && I.elementAt(example).characterClass == oppositeChar)) {
                 for (int i = 0; i < w.length; i++) {
-                    z += w[i] * img.vec[i]*learnrate;
-                    if (z >= kynnys) {
-                        w[i] -= w[i]-z;
-                    } else {
-                        w[i] +=w[i]+z;
-                    }
+                    w[i] = w[i] - I.elementAt(example).vec[i];
                 }
-//            }
+            }
+            if ((z < 0 && I.elementAt(example).characterClass == targetChar)) {
+                for (int i = 0; i < w.length; i++) {
+                    w[i] = w[i] + I.elementAt(example).vec[i];
+                }
+            }
         }
-
-//        w = [0,...,0]      // painovektori. dimensio=n; sama kuin datan
-//        while Luokitteluvirhe(Data, w) > 0
-//             x = PoimiSatunnainenEsimerkki(Data)
-//             z = w1 x1 + ... + wn xn       // kynnysfunktion argumentti
-//             if z ≥ 0 and y = 0:           // luokiteltiin nolla rastiksi 
-//                 w = w − x                    
-//             if z < 0 and y = 1:           // luokiteltiin rasti nollaksi
-//                 w = w + x
-//        end-while
-//        for (int step = 0; step < steps; step++) {
-//            int desired = 0;  //desired output (plus-luokassa 1, muulloin 0)
-//            if (I.elementAt(step).characterClass == targetChar) {
-////                System.out.println("haluttu");
-//                desired = 1;
-//            }
-//            int output;     
-//            double sum = 0; //painojen ja inputtien tulojen summa
-//            for (int i = 0; i < w.length; i++) {
-//                sum += I.elementAt(step).vec[i] * w[i];
-//            }
-//            if (sum > kynnys) {
-//                output = 1;
-//            } else {
-//                output = 0; //verrataan summaa kynnykseen
-//            }
-//            double correction = desired - output * learnrate;  //painoihin lisättävä korjaus (desiredin ja saadun erotus kertaa learning rate)
-//            for (int i = 0; i < w.length; i++) {
-//                w[i] = (w[i] - correction);// * I.elementAt(step).vec[i];
-//            }
-//        }
         return w;
     }
 
@@ -194,7 +164,7 @@ public class Perceptron {
         System.out.println("Learning to classify " + targetChar + " vs " + oppositeChar);
         String img1 = "/Users/jamo/g/tkoaly/viikko4/kuva/mnist-x.data";
         String img2 = "/Users/jamo/g/tkoaly/viikko4/kuva/mnist-y.data";
-        int learnSteps = 5000;
+        int learnSteps = 4000;
 
         readImages(img1, img2);//args[0],args[1]);
         testInput();
